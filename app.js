@@ -43,7 +43,7 @@ function WriteData(data){
 }
 
 
-app.get("/" (req, res) => {
+app.get("/", (req, res) => {
 	res.send("This is root for CS321 Project.\n");
 	res.end();
 });
