@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/rtirfe/CS321Project/issues"
   },
-  "homepage": "https://github.com/rtirfe/CS321Project#readme"
+  "homepage": "https://github.com/rtirfe/CS321Project#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "nock": "^10.0.2",
+    "node-fetch": "^2.2.1",
+    "request": "^2.88.0"
+  }
 }
