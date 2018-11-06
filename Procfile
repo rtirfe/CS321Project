@@ -1,1 +1,1 @@
-web: node --debug=5850 app.js
+web: node --inspect=5850 app.js
