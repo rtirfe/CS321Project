@@ -1,9 +1,11 @@
-var expess = require('express');
+var express = require('express');
 var app = express();
 const request = require("request");
+const nock = require('nock');
+var fetch = require ('node-fetch');
 const fs = require("fs");
 
-app.set('port', (process, env.PORT || 3000)); //gets a port to run our app
+app.set('port', (process.env.PORT || 3000)); //gets a port to run our app
 
 let name = "KN4EZY-1"
 let apiKey = "117986.5w5ElPStqtCEEfG"
@@ -54,11 +56,12 @@ app.get("*", (req,res, next) =>{
 	next(err);
 });
 app.use( (err, req, res, next) =>{
-	if(err,status != 500){
+	if(err.status != 500){
 		return next();
 	}
 	res.send( err.message || " ** Invalide request ** \n");
 });
 app.listen(app.get('port'), ()=> {
 	console.log("Node app.js is running on port" + app.get('port'));
+	var fetch = require ('node-fetch');
 });
