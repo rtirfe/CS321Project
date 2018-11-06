@@ -1,5 +1,9 @@
+var expess = require('express');
+var app = express();
 const request = require("request");
 const fs = require("fs");
+
+app.set('port', (process, env.PORT || 3000)); //gets a port to run our app
 
 let name = "KN4EZY-1"
 let apiKey = "117986.5w5ElPStqtCEEfG"
@@ -37,3 +41,8 @@ function WriteData(data){
 				            }
 		        })
 }
+
+
+app.listen(app.get('port'), ()=> {
+	console.log("Node app.js is running on port" + app.get('port'));
+});
