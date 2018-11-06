@@ -7,6 +7,7 @@ var fetch = require ('node-fetch');
 app.set('port', (process.env.PORT || 3000)); //gets a port to run our app
 
 app.get("/", (req, res) => {
+
 	res.send("This is root for CS321 Project.\n");
 	res.end();
 });
@@ -24,5 +25,6 @@ app.use( (err, req, res, next) =>{
 });
 app.listen(app.get('port'), ()=> {
 	console.log("Node app.js is running on port: " + app.get('port'));
+	//call aprs() function.
 	var fetch = require ('node-fetch');
 });
