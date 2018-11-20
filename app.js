@@ -38,6 +38,5 @@ app.listen(app.get('port'), ()=> {
 	console.log("Express server is running on port: " + app.get('port'));
 	//connect to the database
 	db = new database();
-	
-	//setTimeout(() =>{ aprs(db) }, 3000);	
+	setTimeout(() =>{ aprs(db) }, 3000);	
 });
