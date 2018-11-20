@@ -7,11 +7,15 @@ let url = `https://api.aprs.fi/api/get?name=${name}&what=loc&apikey=${apiKey}&fo
 
 const REQUESTRATE = 60 * 1000;  //How often to request APRS data in ms
 
-let dataObj = {
-    location: []
-}
-
+let db;
 let intervalId; //used to stop/change interval
+
+module.exports = StartAprs = (database) =>{
+    db = database;
+    console.log(`Getting APRS data ${name} every ${REQUESTRATE / 1000} seconds\n`);
+    RequestData();
+    intervalId = setInterval(RequestData, REQUESTRATE);
+}
 
 function RequestData(){
     console.log(`Requesting APRS data`)
@@ -36,15 +40,5 @@ function RequestData(){
 function WriteData(data){
     data = JSON.parse(data)
     db.insert(data.entries[0])
-    dataObj.location.push(data.entries[0]);
     let json = JSON.stringify(dataObj);
-}
-
-let db;
-
-module.exports = StartAprs = (database) =>{
-    db = database;
-    console.log(`Getting APRS data ${name} every ${REQUESTRATE / 1000} seconds\n`);
-    RequestData();
-    intervalId = setInterval(RequestData, REQUESTRATE);
 }
