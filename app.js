@@ -1,10 +1,11 @@
 const aprs = require("./aprs");
+const database = require('./database');
 let express = require('express');
 let app = express();
 const request = require("request");
 const fs = require('fs')
 
-app.set('port', (process.env.PORT || 3000)); //gets a port to run our app
+app.set('port', (process.env.PORT || 3000));
 
 app.get("/", (req, res) => {
 	res.send("This is root for CS321 Project.\n");
@@ -31,6 +32,10 @@ app.use( (err, req, res, next) =>{
 });
 
 app.listen(app.get('port'), ()=> {
-	console.log("Server is running on port: " + app.get('port'));
-	aprs();
+	console.log("Express server is running on port: " + app.get('port'));
+	//connect to the database
+	let db = new database();
+	
+	setTimeout(function(){ 
+		aprs(db); }, 3000);
 });

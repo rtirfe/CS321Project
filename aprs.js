@@ -21,13 +21,13 @@ function RequestData(){
             RequestData();
         }
         else if(body == null){
-            console.log("Rate limit reached, increasing request interval by 5 seconds");
+            console.log("Rate limit reached, decreasing request interval by 5 seconds");
             clearInterval(intervalId);
             REQUESTRATE += 5000;
             intervalId = setInterval(RequestData, REQUESTRATE)
         }
         else{
-            console.log("Writing data to file\n");
+            console.log("Writing data to database\n");
             WriteData(body);
         }
     })
@@ -35,16 +35,15 @@ function RequestData(){
 
 function WriteData(data){
     data = JSON.parse(data)
+    db.insert(data.entries[0])
     dataObj.location.push(data.entries[0]);
     let json = JSON.stringify(dataObj);
-    fs.writeFile('locationData.json', json, 'utf8', (err)=>{
-        if(err){
-            console.log(err);
-        }
-    })
 }
 
-module.exports = StartAprs = () =>{
+let db;
+
+module.exports = StartAprs = (database) =>{
+    db = database;
     console.log(`Getting APRS data ${name} every ${REQUESTRATE / 1000} seconds\n`);
     RequestData();
     intervalId = setInterval(RequestData, REQUESTRATE);
