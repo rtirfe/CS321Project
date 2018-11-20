@@ -40,5 +40,4 @@ function RequestData(){
 function WriteData(data){
     data = JSON.parse(data)
     db.insert(data.entries[0])
-    let json = JSON.stringify(dataObj);
 }
