@@ -99,6 +99,17 @@ app.post('/getrecords', (req, res) =>{
 	}
 })
 
+// Get the last inserted record in the collection
+app.post('/getlastrecord', (req, res) =>{
+	if(dbconnected){
+		AprsModel.find({}).sort({_id:-1}).limit(1).exec((err, doc)=>{ 
+			res.send(doc)
+		});
+	}else{
+		res.status(400).send("Database connection has not been established.")
+	}
+})
+
 
 app.listen(app.get('port'), ()=> {
 	console.log("Express server is running on port: " + app.get('port'));

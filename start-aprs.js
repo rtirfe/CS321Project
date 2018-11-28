@@ -32,6 +32,7 @@ function RequestData(){
                 console.log('\tEmpty Aprs data, not saving to Database');
             }else{ //save to database
                 data = data.entries[0];
+                console.log(data)
                 request.post('http://localhost:3000/insert', {
                     form:{
                         name: data.name,

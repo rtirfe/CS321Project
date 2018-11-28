@@ -38,16 +38,9 @@
         }
       });
 
-      /*********************
-       * Add graphics layer
-       *********************/
-      var graphicsLayer = new GraphicsLayer();
-      map.add(graphicsLayer);
-
-      /*************************
-       * Add a 3D point graphic
-       *************************/
-
+      // Create a graphics layer
+      let graphicsLayer = new GraphicsLayer();
+      
       markerSymbol = {
         type: "simple-marker", // autocasts as new SimpleMarkerSymbol()
         color: [226, 119, 40],
@@ -57,20 +50,44 @@
         }
       };
 
+      $.post('/getrecords').done((data) =>{
+        let point, pointGraphic;
+        data.forEach((point) =>{
+          point = {
+            type: 'point',
+            x: point.long,
+            y: point.lat,
+            z: point.altitude
+          }
 
-      var point = {
-        type: "point",
-        x: -77.24733,
-        y: 38.92850,
-        z: 129
-      };
-
-      var pointGraphic = new Graphic({
-        geometry: point,
-        symbol: markerSymbol
+          pointGraphic = new Graphic({
+            geometry: point,
+            symbol: markerSymbol
+          })
+          graphicsLayer.add(pointGraphic);
+        })
+        map.add(graphicsLayer);
       });
 
-      graphicsLayer.add(pointGraphic);
+      setInterval(() =>{
+         $.post('/getlastrecord').done((data) =>{
+             let point, pointGraphic;
+             point = {
+                type: 'point',
+                x: data[0].long,
+                y: data[0].lat,
+                z: data[0].altitude
+              }
+
+          pointGraphic = new Graphic({
+            geometry: point,
+            symbol: markerSymbol
+          })
+
+          graphicsLayer.add(pointGraphic);
+          map.add(graphicsLayer);
+         });
+      }, 70 * 1000)
     });
 </script>
 </head>
