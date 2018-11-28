@@ -7,6 +7,8 @@ const session = require('express-session');
 const exphbs = require('express-handlebars');
 const mongoose = require('mongoose');
 
+let dbconnected = false;
+
 const app = express();
 app.set('port', (process.env.PORT || 3000));
 
@@ -63,7 +65,6 @@ app.post("/insert", (req, res) =>{
 	}else{
 		let aprsRecord = new AprsModel({
 			name: req.body.name,
-			time: Math.floor(Date.now() / 1000),
 			lat: req.body.lat,
 			long: req.body.long,
 			altitude: req.body.altitude
@@ -87,6 +88,17 @@ app.get('/map', (req, res) =>{
 	res.render('map');
 });
 
+// Get all aprs records from database ordered by ascending date
+app.post('/getrecords', (req, res) =>{
+	if(dbconnected){
+		AprsModel.find({}).sort({date: 'ascending'}).exec((err, docs)=>{ 
+			res.send(docs)
+		});
+	}else{
+		res.status(400).send("Database connection has not been established.")
+	}
+})
+
 
 app.listen(app.get('port'), ()=> {
 	console.log("Express server is running on port: " + app.get('port'));
@@ -95,6 +107,7 @@ app.listen(app.get('port'), ()=> {
 	let url = "mongodb://cs321:CS321GMU@ds113134.mlab.com:13134/heroku_ncnd7kfp";
 	mongoose.connect(url, {useNewUrlParser: true}).then(() =>{
 		console.log("Connected to the database");
+		dbconnected = true;
 	}).catch((err) =>{
 		console.log("Error: could not connect to the database");
 	})

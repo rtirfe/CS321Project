@@ -27,7 +27,9 @@
         return;
       }
 
-      $.post('/start', {name: name, time: time});
+      $.post('/start', {name: name, time: time}).done(() =>{
+        window.location.href = "/map"
+      })
     });
   });
 
