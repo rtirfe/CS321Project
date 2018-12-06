@@ -24,23 +24,16 @@
 
       let map = new Map({ basemap: "hybrid"});
 
-      let view = new SceneView({
-        container: "viewDiv",
-        map: map,
-        camera: { // autocasts as new Camera()
-          position: { // autocasts as new Point()
-            x: -77.24733,
-            y: 38.92850,
-            z: 129
-          },
-          heading: 0.34445102566290225,
-          tilt: 82.95536300536367
-        }
-      });
-
       // Create a graphics layer
       let graphicsLayer = new GraphicsLayer();
-      
+
+      var view = new SceneView({
+          container: "viewDiv",
+          map: map,
+          center: [-78.181604, 38.987201],
+          zoom: 17
+        });
+
       markerSymbol = {
         type: "simple-marker", // autocasts as new SimpleMarkerSymbol()
         color: [226, 119, 40],
@@ -77,11 +70,11 @@
                 x: data[0].long,
                 y: data[0].lat,
                 z: data[0].altitude
-              }
+             }
 
-          pointGraphic = new Graphic({
-            geometry: point,
-            symbol: markerSymbol
+              pointGraphic = new Graphic({
+              geometry: point,
+              symbol: markerSymbol
           })
 
           graphicsLayer.add(pointGraphic);

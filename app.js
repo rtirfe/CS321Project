@@ -1,4 +1,4 @@
-const startAprs = require("./start-aprs");
+const flightTracker = require("./flight-tracker");
 const AprsModel = require('./dbmodel');
 const express = require('express');
 const path = require('path');
@@ -31,35 +31,51 @@ app.use(session({
 }));
 
 // -- ROUTES -- //
-
-app.get("/", (req, res) => {
-	res.send("This is root for CS321 Project.\n");
-	res.end();
-});
-
-// Start aprs.fi requests 
-app.get('/start', (req, res) =>{
+// Start flight tracker
+app.get('/', (req, res) =>{
 	if(!req.session || !req.session.started){
-		res.render("start")
+		res.render("index")
 	}else{
-		res.render('error', {error: "APRS Process already started."})
+		res.render('map')
 	}
 })
 
-// Start aprs.fi requests handler
-app.post('/start', (req, res)=>{
+// Start flight tracker handler
+app.post('/', (req, res)=>{
 	if(req.body.name && req.body.time){
 		req.session.started = true;
-		startAprs(req.body.name, req.body.time);
-		res.status(200).send('Okay, APRS requets started');
+		flightTracker(req.body.name, req.body.time); //start flight tracker
+		res.sendStatus(200);
 	}else{
 		res.render("error", {error: "Invalid request, must pass name and time"})
 	}
 })
 
+// Display the map
+app.get('/map', (req, res) =>{
+	if(!req.session || !req.session.started){
+		res.render('index')
+	}else{
+		res.render('map')
+	}
+});
+
+// drop the collection from database
+app.get('/drop', (req, res) =>{
+	res.render('drop')
+})
+
+// drop handler
+app.post('/drop', (req, res) =>{
+	AprsModel.remove({}, () =>{
+		console.log('Dropped collection from database')
+		res.sendStatus(200)
+	})
+})
+
 // Insert a new APRS record to the database
 app.post("/insert", (req, res) =>{
-	if(!req.body.name || !req.body.lat || !req.body.long || !req.body.altitude){
+	if(!req.body.name || !req.body.lat || !req.body.long){
 		res.status(400).send("Must send: name, lat, long, altitude");
 		console.log("Bad insert request");
 	}else{
@@ -82,11 +98,6 @@ app.post("/insert", (req, res) =>{
 		});
 	}
 })
-
-// Display the map
-app.get('/map', (req, res) =>{
-	res.render('map');
-});
 
 // Get all aprs records from database ordered by ascending date
 app.post('/getrecords', (req, res) =>{
@@ -112,10 +123,10 @@ app.post('/getlastrecord', (req, res) =>{
 
 
 app.listen(app.get('port'), ()=> {
-	console.log("Express server is running on port: " + app.get('port'));
+	console.log("web server is running on port: " + app.get('port'));
 
 	//connect to the database
-	let url = "mongodb://cs321:CS321GMU@ds113134.mlab.com:13134/heroku_ncnd7kfp";
+	let url = "mongodb://localhost:27017/flighttracker"
 	mongoose.connect(url, {useNewUrlParser: true}).then(() =>{
 		console.log("Connected to the database");
 		dbconnected = true;

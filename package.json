@@ -12,8 +12,17 @@
     "express": "^4.16.4",
     "express-handlebars": "^3.0.0",
     "express-session": "^1.15.6",
-    "mongoose": "^5.3.13",
+    "mongoose": "^5.2.8",
     "request": "^2.88.0"
   },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rtirfe/CS321Project.git"
+  },
+  "bugs": {
+    "url": "https://github.com/rtirfe/CS321Project/issues"
+  },
+  "homepage": "https://github.com/rtirfe/CS321Project#readme",
   "description": ""
 }

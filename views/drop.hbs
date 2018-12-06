@@ -1,0 +1,30 @@
+<style>
+    body {
+        padding: 50px;
+    }
+</style>
+
+<div id="message"></div>
+<div id="toHide">
+    <h1>Drop collection</h1>
+    <p>This will delete all data in the database</p>
+    <form action="#">
+        <button type="button" class="btn btn-danger" id="start-aprs" onclick='deleteData()'>Delete all data</button>
+    </form>
+</div>
+
+<script>
+function deleteData() {
+    if(confirm("Are you sure you want to delete all data?")){
+        $.post("/drop").done(() =>{
+            $('#toHide').hide();
+            $('#message').text("Collection dropped, redirecting...")
+            setTimeout(() =>{
+                window.location.href = "/"
+            }, 3000)
+        })
+    }else{
+
+    }
+}
+</script>
