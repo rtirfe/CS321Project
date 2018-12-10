@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const session = require('express-session');
 const exphbs = require('express-handlebars');
 const mongoose = require('mongoose');
+const MongoStore = require('connect-mongo')(session);
 
 let dbconnected = false;
 
@@ -25,6 +26,7 @@ app.set('view engine', '.hbs')
 
 // Set up sessions
 app.use(session({
+	store: new MongoStore({ mongooseConnection: mongoose.connection }),
     secret: "#$#$^*&GBFSDF&^",
     resave: false,
     saveUninitialized: false,
@@ -33,6 +35,7 @@ app.use(session({
 // -- ROUTES -- //
 // Start flight tracker
 app.get('/', (req, res) =>{
+	req.session.destroy();
 	if(!req.session || !req.session.started){
 		res.render("index")
 	}else{
@@ -42,8 +45,6 @@ app.get('/', (req, res) =>{
 
 // Start flight tracker handler
 app.post('/', (req, res)=>{
-	console(req.body.name)
-	console.log(req.body.time)
 	if(req.body.name && req.body.time){
 		req.session.started = true;
 		flightTracker(req.body.name, req.body.time); //start flight tracker
@@ -55,7 +56,6 @@ app.post('/', (req, res)=>{
 
 // Display the map
 app.get('/map', (req, res) =>{
-	console.log(req.session)
 	if(!req.session || !req.session.started){
 		res.render('index')
 	}else{
