@@ -42,6 +42,8 @@ app.get('/', (req, res) =>{
 
 // Start flight tracker handler
 app.post('/', (req, res)=>{
+	console(req.body.name)
+	console.log(req.body.time)
 	if(req.body.name && req.body.time){
 		req.session.started = true;
 		flightTracker(req.body.name, req.body.time); //start flight tracker
@@ -53,6 +55,7 @@ app.post('/', (req, res)=>{
 
 // Display the map
 app.get('/map', (req, res) =>{
+	console.log(req.session)
 	if(!req.session || !req.session.started){
 		res.render('index')
 	}else{
