@@ -126,7 +126,8 @@ app.listen(app.get('port'), ()=> {
 	console.log("web server is running on port: " + app.get('port'));
 
 	//connect to the database
-	let url = "mongodb://localhost:27017/flighttracker"
+	//let url = "mongodb://localhost:27017/flighttracker"
+	let url = "mongodb://cs321:CS321GMU@ds113134.mlab.com:13134/heroku_ncnd7kfp";
 	mongoose.connect(url, {useNewUrlParser: true}).then(() =>{
 		console.log("Connected to the database");
 		dbconnected = true;
