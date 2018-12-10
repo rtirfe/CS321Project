@@ -1,3 +1,4 @@
+![](demo.gif)
 # CS 321 Flight Tracker
 
 **Requirements**<br>
