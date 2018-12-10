@@ -45,7 +45,7 @@ function RequestData(){
                     console.log("\tAprs data is missing location lata, not saving to database...");
                 }
 
-                request.post('http://localhost:3000/insert', {
+                request.post('/insert', {
                     form:{
                         name: data.name,
                         lat: data.lat,
@@ -57,9 +57,3 @@ function RequestData(){
         }
     })
 }
-
-/*
-function WriteData(data){
-    data = JSON.parse(data)
-    db.insert(data.entries[0])
-}*/
