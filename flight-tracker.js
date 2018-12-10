@@ -45,7 +45,7 @@ function RequestData(){
                     console.log("\tAprs data is missing location lata, not saving to database...");
                 }
 
-                request.post('/insert', {
+                request.post('https://cs321project.herokuapp.com/insert', {
                     form:{
                         name: data.name,
                         lat: data.lat,
