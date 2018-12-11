@@ -1,4 +1,4 @@
-![](demo.gif)
+			![](demo.gif)
 # CS 321 Flight Tracker
 
 **Description**<br>
